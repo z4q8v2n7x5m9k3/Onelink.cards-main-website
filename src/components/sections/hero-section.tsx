@@ -4,10 +4,11 @@ import { HeroEntrance } from "@/components/ui/reveal";
 import { ActionLink } from "@/components/ui/action-link";
 import { siteConfig } from "@/content/site";
 import { Icon } from "@/components/icons";
-import { HeroCloudBackground } from "@/components/hero-cloud-background";
 import styles from "./hero-section.module.css";
 import Image from "next/image";
 import { portfolioItems } from "@/content/portfolio";
+import LineWaves from "@/components/LineWaves";
+import BorderGlow from "@/components/ui/BorderGlow";
 
 const heroIntegrations = [
   { label: "Google Reviews", image: "/integration-logos/google-reviews.png", imageClass: "h-7 w-auto max-w-[78px]" },
@@ -37,15 +38,30 @@ export function HeroSection() {
   const whatsappHref = `https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent("Hello OneLink, I want to discuss OneLink for my business.")}`;
 
   return (
-    <section id="home" className="section-shell relative overflow-x-clip overflow-y-visible bg-white sm:bg-[#edf6ff]">
-      <div className="hidden sm:block">
-        <HeroCloudBackground />
+    <section id="home" className="section-shell relative isolate overflow-x-clip overflow-y-visible bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_68%,#edf6ff_100%)]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 -bottom-20 -z-20 overflow-hidden opacity-48 [mask-image:linear-gradient(to_bottom,black_0%,black_70%,rgba(0,0,0,0.5)_88%,transparent_100%)] sm:-bottom-24 sm:opacity-90" aria-hidden="true">
+        <LineWaves
+          speed={0.26}
+          innerLineCount={20}
+          outerLineCount={24}
+          warpIntensity={0.78}
+          rotation={-45}
+          edgeFadeWidth={0.12}
+          colorCycleSpeed={0.8}
+          brightness={0.17}
+          color1="#00A9FF"
+          color2="#55C6FF"
+          color3="#DDF5FF"
+          enableMouseInteraction
+          mouseInfluence={2}
+          lightMode
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_20%,rgba(0,119,255,0.14),transparent_36%),radial-gradient(circle_at_18%_72%,rgba(112,211,255,0.08),transparent_38%)]" />
+        <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.74)_32%,rgba(255,255,255,0.2)_50%,transparent_65%)] sm:block" />
       </div>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,rgba(0,169,255,0.1),transparent_42%),linear-gradient(180deg,#ffffff_0%,#f7fbff_72%,#ffffff_100%)] sm:hidden" aria-hidden />
-      <div className="pointer-events-none absolute left-1/2 top-0 z-[1] h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.06)_42%,transparent_72%)] blur-2xl" aria-hidden />
-      <div className={`${styles.heroGrid} relative z-10 mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-0 px-4 pb-3 pt-[5.85rem] sm:gap-7 sm:px-6 sm:pb-5 sm:pt-36 md:gap-6 md:pb-4 md:pt-28 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 lg:px-8 lg:pb-6 lg:pt-[160px]`}>
+      <div className={`${styles.heroGrid} relative z-20 mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-0 px-4 pb-8 pt-[5.85rem] sm:gap-7 sm:px-6 sm:pb-12 sm:pt-36 md:gap-6 md:pb-12 md:pt-28 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 lg:px-8 lg:pb-20 lg:pt-[160px]`}>
         <div className="contents min-w-0 text-left sm:flex sm:flex-col sm:items-start sm:justify-center">
-          <HeroEntrance delay={0.03} x={-18} y={8} className="order-1 sm:order-none">
+          <HeroEntrance delay={0.03} x={-18} y={8} className="relative z-30 order-1 sm:order-none">
             <div className="mt-2 flex items-center gap-3 sm:mt-4">
               <div className="flex -space-x-2" aria-label="Featured OneLink businesses">
                 {trustedBusinesses.map((business) => (
@@ -65,10 +81,10 @@ export function HeroSection() {
             </div>
           </HeroEntrance>
           <HeroEntrance delay={0.12} x={-24} y={10} className="order-2 sm:order-none">
-            <h1 className="font-display mt-4 max-w-none text-[clamp(35px,10.25vw,40px)] font-[720] leading-[1.08] tracking-[-0.055em] sm:mt-7 sm:text-[50px] md:text-[48px] lg:text-[52px] xl:text-[60px]">
+            <h1 className="font-display relative isolate mt-4 max-w-none text-[clamp(35px,10.25vw,40px)] font-[720] leading-[1.08] tracking-[-0.055em] before:pointer-events-none before:absolute before:-inset-x-5 before:-inset-y-6 before:-z-10 before:rounded-[38px] before:bg-white/82 before:blur-2xl before:content-[''] sm:mt-7 sm:text-[50px] sm:before:hidden md:text-[48px] lg:text-[52px] xl:text-[60px]">
               <span className="block whitespace-nowrap text-[#111827] lg:hidden">Stop sharing links.</span>
               <span className="hidden whitespace-nowrap text-[#111827] lg:block">Stop sharing links.</span>
-              <span className="mt-1 block whitespace-nowrap text-[#00A9FF] [text-shadow:0_3px_0_rgba(255,255,255,0.72),0_10px_24px_rgba(0,105,190,0.2)] lg:text-white lg:[text-shadow:0_3px_0_rgba(61,91,121,0.34),0_9px_20px_rgba(0,48,105,0.34),0_18px_38px_rgba(0,55,120,0.22)]">Share OneLink.</span>
+              <span className="mt-1 block whitespace-nowrap text-[#00A9FF]">Share OneLink.</span>
             </h1>
           </HeroEntrance>
           <HeroEntrance delay={0.2} x={-22} y={10} className="order-4 sm:order-none">
@@ -78,16 +94,22 @@ export function HeroSection() {
           </HeroEntrance>
           <HeroEntrance delay={0.29} x={-20} y={10} className="order-5 min-w-0 w-full sm:order-none">
           <div className="mt-5 grid w-full grid-cols-2 gap-2.5 sm:hidden">
-            <ActionLink href="/pricing" variant="blue" withArrow className="h-12 min-w-0 !rounded-[15px] bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] px-3 text-[13px] font-bold shadow-[0_16px_30px_-18px_rgba(0,135,225,0.7)] [&_svg]:h-4 [&_svg]:w-4">
-              Get Your OneLink
-            </ActionLink>
-            <ActionLink href={whatsappHref} variant="whatsapp" className="h-12 min-w-0 !rounded-[15px] px-3 text-[13px] font-bold shadow-[0_16px_30px_-20px_rgba(37,211,102,0.45)]">
-              <Icon name="whatsapp" className="h-5 w-5" />
-              WhatsApp
-            </ActionLink>
-            <ActionLink href="/portfolio" variant="secondary" withArrow className="col-span-2 h-12 min-w-0 !rounded-[15px] border-2 border-[#00A9FF] !bg-white px-3 text-[14px] font-extrabold !text-[#0077b9] shadow-[0_14px_30px_-22px_rgba(0,169,255,0.52)] hover:border-[#008fd9] hover:!bg-[#f2fbff] [&_svg]:h-4 [&_svg]:w-4">
-              See OneLink in Action
-            </ActionLink>
+            <BorderGlow backgroundColor="#008cf5" borderRadius={15} colors={["#ffffff", "#7de3ff", "#00a9ff"]}>
+              <ActionLink href={whatsappHref} variant="blue" withArrow className="h-12 min-w-0 !rounded-[15px] bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] px-3 text-[13px] font-bold shadow-[0_16px_30px_-18px_rgba(0,135,225,0.7)] [&_svg]:h-4 [&_svg]:w-4">
+                Get Your OneLink
+              </ActionLink>
+            </BorderGlow>
+            <BorderGlow glowColor="145 72 52" backgroundColor="#25D366" borderRadius={15} colors={["#ffffff", "#8fffb9", "#25D366"]}>
+              <ActionLink href={whatsappHref} variant="whatsapp" className="h-12 min-w-0 !rounded-[15px] px-3 text-[13px] font-bold shadow-[0_16px_30px_-20px_rgba(37,211,102,0.45)]">
+                <Icon name="whatsapp" className="h-5 w-5" />
+                WhatsApp
+              </ActionLink>
+            </BorderGlow>
+            <BorderGlow className="col-span-2" backgroundColor="#ffffff" borderRadius={15} colors={["#7de3ff", "#00a9ff", "#1476ff"]}>
+              <ActionLink href={whatsappHref} variant="secondary" withArrow className="h-12 min-w-0 !rounded-[15px] border-2 border-[#00A9FF] !bg-white px-3 text-[14px] font-extrabold !text-[#0077b9] shadow-[0_14px_30px_-22px_rgba(0,169,255,0.52)] hover:border-[#008fd9] hover:!bg-[#f2fbff] [&_svg]:h-4 [&_svg]:w-4">
+                See OneLink in Action
+              </ActionLink>
+            </BorderGlow>
             <div className="col-span-2 mt-3 w-full border-t border-[#d8e2ea] pt-5">
               <p className="text-left text-[12px] font-extrabold leading-5 text-[#435267]">
                 Connect with the tools your customers already use.
@@ -112,22 +134,26 @@ export function HeroSection() {
             </div>
           </div>
           <div className="mt-7 hidden w-full max-w-[470px] flex-row flex-nowrap items-stretch gap-3 sm:flex">
+            <BorderGlow className="min-w-0 flex-[1.15]" backgroundColor="#008cf5" borderRadius={15} colors={["#ffffff", "#7de3ff", "#00a9ff"]}>
               <ActionLink
-                href="/portfolio"
+                href={whatsappHref}
                 variant="primary"
                 withArrow
-                className="h-12 min-w-0 flex-[1.15] !rounded-[15px] bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] px-4 text-[13px] font-bold shadow-[0_16px_30px_-16px_rgba(0,135,225,0.62)] hover:brightness-110 [&_svg]:h-4 [&_svg]:w-4"
+                className="h-12 min-w-0 !rounded-[15px] bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] px-4 text-[13px] font-bold shadow-[0_16px_30px_-16px_rgba(0,135,225,0.62)] hover:brightness-110 [&_svg]:h-4 [&_svg]:w-4"
               >
                 See OneLink in Action
               </ActionLink>
+            </BorderGlow>
+            <BorderGlow className="min-w-0 flex-1" backgroundColor="#ffffff" borderRadius={15} colors={["#7de3ff", "#00a9ff", "#1476ff"]}>
             <ActionLink
-              href="/pricing"
+              href={whatsappHref}
               variant="secondary"
               withArrow
-              className="h-12 min-w-0 flex-1 !rounded-[15px] border-2 border-[#168fd4] !bg-white/92 px-4 text-[13px] font-extrabold !text-[#064083] shadow-[0_16px_34px_-20px_rgba(0,70,140,0.48)] backdrop-blur-md hover:border-[#087bc1] hover:!bg-white [&_svg]:h-4 [&_svg]:w-4"
+              className="h-12 min-w-0 !rounded-[15px] border-2 border-[#168fd4] !bg-white/92 px-4 text-[13px] font-extrabold !text-[#064083] shadow-[0_16px_34px_-20px_rgba(0,70,140,0.48)] backdrop-blur-md hover:border-[#087bc1] hover:!bg-white [&_svg]:h-4 [&_svg]:w-4"
             >
               Get OneLink
             </ActionLink>
+            </BorderGlow>
           </div>
           </HeroEntrance>
           <HeroEntrance delay={0.38} x={-16} y={8} className="order-6 hidden sm:order-none sm:block">
@@ -159,7 +185,7 @@ export function HeroSection() {
           </div>
           </HeroEntrance>
         </div>
-        <HeroEntrance delay={0.14} x={28} y={16} className={`${styles.heroVisual} order-3 relative z-20 mt-2 min-w-0 overflow-visible pb-0 pt-0 sm:order-none sm:mt-0 sm:pb-0 sm:pt-0 md:mx-auto md:w-[80%] lg:mx-0 lg:w-auto lg:translate-x-6 lg:pt-1 xl:translate-x-8`}>
+        <HeroEntrance delay={0.14} x={28} y={16} className={`${styles.heroVisual} order-3 relative z-40 mt-2 min-w-0 overflow-visible pb-0 pt-0 sm:order-none sm:mt-0 sm:pb-0 sm:pt-0 md:mx-auto md:w-[80%] lg:mx-0 lg:w-auto lg:translate-x-6 lg:pt-1 xl:translate-x-8`}>
           <div className="absolute -z-10 left-0 top-8 h-[220px] w-[220px] rounded-full bg-[var(--accent-glow)] blur-[78px] pointer-events-none sm:-left-6 sm:top-6 sm:h-[320px] sm:w-[320px] sm:blur-[90px]" />
           <div className="absolute -z-10 right-0 bottom-8 h-[190px] w-[190px] rounded-full bg-[rgba(11,126,200,0.1)] blur-[60px] pointer-events-none sm:-right-6 sm:bottom-6 sm:h-[250px] sm:w-[250px] sm:blur-[70px]" />
           <div className="relative">

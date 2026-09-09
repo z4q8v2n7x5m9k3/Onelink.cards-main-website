@@ -9,6 +9,7 @@ import { Icon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useSplashComplete } from "@/components/ui/splash-context";
+import BorderGlow from "@/components/ui/BorderGlow";
 
 export function Navbar() {
   const splashComplete = useSplashComplete();
@@ -42,8 +43,8 @@ export function Navbar() {
         <div className="grid min-h-[60px] grid-cols-[1fr_auto] items-center gap-3 px-4 py-2 sm:min-h-[66px] sm:px-6 lg:grid-cols-[minmax(180px,1fr)_auto_minmax(280px,1fr)] lg:gap-8">
           <Link href="/" aria-label="OneLink home" className="group flex min-w-0 shrink-0 flex-col items-start justify-center">
             <Wordmark priority className="!h-auto !w-[106px] transition-transform duration-300 group-hover:scale-[1.025] sm:!w-[124px]" />
-            <span className="mt-0.5 pl-[2px] text-[7px] font-extrabold uppercase leading-none tracking-[0.18em] text-[#718096] sm:text-[8px]">
-              Smart Business Pages
+            <span className="mt-0.5 pl-[2px] text-[6.5px] font-extrabold uppercase leading-none tracking-[0.17em] text-[#718096] sm:text-[7.5px]">
+              Smart Business Page
             </span>
           </Link>
 
@@ -68,17 +69,21 @@ export function Navbar() {
             <a href={instagramHref} target="_blank" rel="noreferrer" aria-label="Follow OneLink on Instagram" className="grid h-10 w-10 place-items-center rounded-full border border-[#e1306c]/30 bg-[linear-gradient(145deg,#ffffff_35%,#fff1f7_100%)] text-[#e1306c] shadow-[0_10px_24px_-16px_rgba(225,48,108,0.75)] transition hover:-translate-y-0.5 hover:border-[#e1306c]/55 hover:shadow-[0_14px_28px_-16px_rgba(225,48,108,0.9)] lg:h-11 lg:w-11">
               <Image src="/integration-logos/instagram.png" alt="" width={24} height={24} className="h-5 w-5 object-contain" />
             </a>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden h-11 items-center gap-3 whitespace-nowrap rounded-full bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] py-1 pl-5 pr-1 text-[14px] font-semibold text-white shadow-[0_10px_24px_-8px_rgba(0,135,225,0.5)] transition hover:-translate-y-0.5 hover:brightness-110 lg:inline-flex"
-            >
-              <span>Book Demo</span>
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-white text-[#25D366]">
-                <Icon name="whatsapp" className="h-[17px] w-[17px]" />
-              </span>
-            </a>
+            <div className="hidden lg:block">
+              <BorderGlow className="!w-[154px]" backgroundColor="#008cf5" borderRadius={999} colors={["#ffffff", "#7de3ff", "#00a9ff"]}>
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex h-11 items-center justify-between gap-3 whitespace-nowrap rounded-full bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] py-1 pl-5 pr-1 text-[14px] font-semibold text-white shadow-[0_10px_24px_-8px_rgba(0,135,225,0.5)] transition hover:-translate-y-0.5 hover:brightness-110"
+                >
+                  <span>Book Demo</span>
+                  <span className="grid h-8 w-8 place-items-center rounded-full bg-white text-[#25D366]">
+                    <Icon name="whatsapp" className="h-[17px] w-[17px]" />
+                  </span>
+                </a>
+              </BorderGlow>
+            </div>
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="group flex h-10 w-10 items-center justify-center rounded-[12px] border border-black/8 bg-white text-[#151515] shadow-sm transition-all active:scale-95 lg:hidden"
@@ -123,15 +128,6 @@ export function Navbar() {
                     <Icon name="chevron-right" className="h-4 w-4 text-[#9ca3af]" />
                   </Link>
                 ))}
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="mt-2 flex min-h-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#00A9FF_0%,#0077FF_100%)] px-4 py-3 text-[15px] font-semibold text-white shadow-[0_12px_28px_-12px_rgba(0,135,225,0.62)]"
-                >
-                  Book a Free Demo
-                </a>
                 <div className="mt-2 border-t border-black/5 p-2 pt-4">
                   <p className="mb-3 text-[12px] font-bold uppercase tracking-widest text-[#9ca3af]">Talk to our team</p>
                   <div className="flex items-center gap-2">

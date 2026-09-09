@@ -21,9 +21,8 @@ const primaryCareRows = [
   { id: "12-month", label: "12 Months" },
 ];
 
-const quickBillAddon = 2499;
-
 type TopPlanId = "essential" | "signature" | "elite";
+type DedicatedPlanId = TopPlanId | "enterprise";
 
 const pricingPresentation: Record<TopPlanId, {
   description: string;
@@ -114,8 +113,12 @@ function formatPricingCurrency(amount: number) {
 const enterpriseHighlights = [
   "Premium Bespoke Design",
   "Multi-Branch & Location Setup",
-  "Advanced Features & Integrations",
-  "Custom Workflows & Priority Support",
+  "Multi-Franchise Management",
+  "Bulk OneLink Deployment",
+  "Custom Admin Dashboards",
+  "CRM, POS & Booking Integrations",
+  "Custom APIs & Automation",
+  "Priority Setup & Support",
 ];
 
 const premiumMockups = [
@@ -139,7 +142,7 @@ export function PricingSection({
   staticReveal = false,
   dedicatedPage = false,
 }: PricingSectionProps) {
-  const [dedicatedSelectedPlanId, setDedicatedSelectedPlanId] = useState<TopPlanId>("signature");
+  const [dedicatedSelectedPlanId, setDedicatedSelectedPlanId] = useState<DedicatedPlanId>("signature");
   const topPlans = pricingPlans.filter((plan) => plan.id !== "enterprise");
   const enterprisePlan = pricingPlans.find((plan) => plan.id === "enterprise");
   const enterpriseHref = `https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent("Hello OneLink, I want to discuss a OneLink Premium custom build.")}`;
@@ -168,7 +171,7 @@ export function PricingSection({
 
         <div className={cn("relative mx-auto", dedicatedPage ? "max-w-[1200px]" : "max-w-7xl")}>
           {dedicatedPage ? (
-            <DedicatedPricingSelector plans={topPlans} selectedPlanId={dedicatedSelectedPlanId} onPlanChange={setDedicatedSelectedPlanId} />
+            <DedicatedPricingSelector plans={topPlans} premiumPlan={enterprisePlan} selectedPlanId={dedicatedSelectedPlanId} onPlanChange={setDedicatedSelectedPlanId} premiumHref={enterpriseHref} />
           ) : (
             <div className="relative mx-auto grid w-full max-w-[42rem] grid-cols-1 items-stretch gap-6 lg:max-w-none lg:grid-cols-3 lg:gap-7">
               {topPlans.map((plan, index) => {
@@ -183,15 +186,9 @@ export function PricingSection({
           )}
         </div>
 
-        {dedicatedPage ? <PricingPackageBuilder key={dedicatedSelectedPlanId} initialPlanId={dedicatedSelectedPlanId} /> : null}
+        {dedicatedPage && dedicatedSelectedPlanId !== "enterprise" ? <PricingPackageBuilder key={dedicatedSelectedPlanId} initialPlanId={dedicatedSelectedPlanId} /> : null}
 
-        {dedicatedPage ? (
-          <>
-            <Reveal delay={0.16} y={14} alwaysShow={staticReveal}><QuickBillPricingPromo /></Reveal>
-            <Reveal delay={0.18} y={14} alwaysShow={staticReveal}><QuickBillPackageBuilder /></Reveal>
-            <PricingTermsNotice className="mx-auto mt-6 max-w-6xl" />
-          </>
-        ) : null}
+        {dedicatedPage ? <PricingTermsNotice className="mx-auto mt-6 max-w-6xl" /> : null}
 
         {enterprisePlan && !dedicatedPage ? (
           <>
@@ -479,35 +476,39 @@ export function ChandigarhOfferButton({ plans, offerMode, onOfferToggle }: { pla
   );
 }
 
-function DedicatedPricingSelector({ plans, selectedPlanId, onPlanChange }: { plans: Plan[]; selectedPlanId: TopPlanId; onPlanChange: (planId: TopPlanId) => void }) {
+function DedicatedPricingSelector({ plans, premiumPlan, selectedPlanId, onPlanChange, premiumHref }: { plans: Plan[]; premiumPlan?: Plan; selectedPlanId: DedicatedPlanId; onPlanChange: (planId: DedicatedPlanId) => void; premiumHref: string }) {
   const selectedPlan = plans.find((plan) => plan.id === selectedPlanId) ?? plans[1];
 
   return (
     <div>
-      <div className="mx-auto mb-5 grid w-full max-w-[620px] grid-cols-3 gap-1 rounded-[16px] border border-[#dce6ee] bg-[#edf3f8] p-1 sm:mb-6">
+      <div className="mx-auto mb-5 grid w-full max-w-[850px] grid-cols-4 gap-1 rounded-[16px] border border-[#d5e4ef] bg-white/72 p-1 shadow-[0_18px_42px_-34px_rgba(9,34,62,0.38)] backdrop-blur-xl sm:mb-6 sm:gap-1.5 sm:rounded-[18px] sm:p-1.5">
         {plans.map((plan) => {
           const isSelected = selectedPlanId === plan.id;
           return (
             <button
               key={plan.id}
               type="button"
-              onClick={() => onPlanChange(plan.id as TopPlanId)}
+              onClick={() => onPlanChange(plan.id as DedicatedPlanId)}
               aria-pressed={isSelected}
               aria-controls="selected-pricing-plan"
               className={cn(
-                "relative flex min-h-11 min-w-0 items-center justify-center rounded-[12px] border px-2 py-2 text-[12px] font-semibold transition-[background-color,border-color,box-shadow,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A9FF] focus-visible:ring-offset-2 sm:min-h-12 sm:text-[14px]",
+                "relative flex min-h-10 min-w-0 items-center justify-center whitespace-nowrap rounded-[11px] border px-1 py-2 text-[9px] font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A9FF] focus-visible:ring-offset-2 sm:min-h-[48px] sm:rounded-[13px] sm:px-3 sm:text-[13px]",
                 isSelected
-                  ? "border-[#bdddf0] bg-[linear-gradient(180deg,#ffffff,#edf8ff)] text-[#086aa5] shadow-[0_2px_6px_rgba(18,64,96,0.08)]"
-                  : "border-transparent bg-transparent text-[#607084] hover:border-[#d9e6ef] hover:bg-white/70 hover:text-[#087cbc]",
+                  ? "-translate-y-px border-[#8fcff1] bg-[linear-gradient(145deg,#ffffff_0%,#e5f6ff_100%)] text-[#056ea9] shadow-[0_12px_24px_-18px_rgba(0,119,255,0.7)] ring-1 ring-[#00A9FF]/10"
+                  : "border-[#e3ebf2] bg-white/55 text-[#607084] hover:-translate-y-px hover:border-[#acd9ee] hover:bg-white hover:text-[#087cbc]",
               )}
             >
               <span>{plan.name}</span>
             </button>
           );
         })}
+        <button type="button" onClick={() => onPlanChange("enterprise")} aria-pressed={selectedPlanId === "enterprise"} aria-controls="selected-pricing-plan" className={cn("relative flex min-h-10 min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-[11px] border px-1 py-2 text-[8px] font-extrabold transition sm:min-h-[48px] sm:gap-2 sm:rounded-[13px] sm:px-3 sm:text-[13px]", selectedPlanId === "enterprise" ? "-translate-y-px border-[#60c8ff] bg-[linear-gradient(135deg,#09223E_0%,#064083_48%,#0077FF_100%)] text-white shadow-[0_16px_30px_-17px_rgba(0,67,155,0.82)] ring-2 ring-[#00A9FF]/20" : "border-[#176ab5] bg-[linear-gradient(135deg,#09223E_0%,#064083_52%,#006bdc_100%)] text-white shadow-[0_12px_24px_-19px_rgba(0,67,155,0.72)] hover:-translate-y-px hover:brightness-110")}>
+          <span className="hidden text-[#78d7ff] sm:inline" aria-hidden="true">✦</span>
+          <span>OneLink Premium</span>
+        </button>
       </div>
-      <div id="selected-pricing-plan" key={selectedPlan?.id}>
-        {selectedPlan ? <DedicatedPricingPlan plan={selectedPlan} isSignature={selectedPlan.id === "signature"} /> : null}
+      <div id="selected-pricing-plan" key={selectedPlanId}>
+        {selectedPlanId === "enterprise" && premiumPlan ? <EnterprisePanel href={premiumHref} plan={premiumPlan} detailed /> : selectedPlan ? <DedicatedPricingPlan plan={selectedPlan} isSignature={selectedPlan.id === "signature"} /> : null}
       </div>
     </div>
   );
@@ -795,7 +796,6 @@ function PricingPackageBuilder({ initialPlanId }: { initialPlanId?: TopPlanId })
   const [selectedPlanId, setSelectedPlanId] = useState<TopPlanId>(initialPlanId ?? "signature");
   const [selectedCareId, setSelectedCareId] = useState("12-month");
   const [includeGst, setIncludeGst] = useState(false);
-  const [includeQuickBill, setIncludeQuickBill] = useState(false);
   const [discountSelection, setDiscountSelection] = useState("10");
   const [customDiscount, setCustomDiscount] = useState("0");
   const [appliedDiscount, setAppliedDiscount] = useState(0);
@@ -808,8 +808,7 @@ function PricingPackageBuilder({ initialPlanId }: { initialPlanId?: TopPlanId })
     ?? selectedPlan?.maintenanceOptions[0];
   const careAmount = selectedCare?.price ?? 0;
   const baseSubtotal = pricingPresentation[selectedPlanId].firstPurchase[selectedCareId] ?? 0;
-  const quickBillCharge = selectedPlanId === "elite" ? 0 : (includeQuickBill ? quickBillAddon : 0);
-  const subtotal = baseSubtotal + quickBillCharge;
+  const subtotal = baseSubtotal;
   const discountAmount = Math.round(subtotal * (Math.min(Math.max(appliedDiscount, 0), 100) / 100));
   const discountedSubtotal = subtotal - discountAmount;
   const gst = Math.round(discountedSubtotal * 0.18);
@@ -843,7 +842,6 @@ function PricingPackageBuilder({ initialPlanId }: { initialPlanId?: TopPlanId })
     `Duration: ${selectedCare?.label ?? "12 Months"}`,
     `First Purchase: ${formatCurrency(subtotal)} + GST`,
     `Future Renewal: ${formatCurrency(careAmount)} + GST`,
-    selectedPlanId === "elite" ? "QuickBill: Included" : includeQuickBill ? `QuickBill activation: ${formatCurrency(quickBillAddon)} one-time` : null,
     discountAmount > 0 ? `Discount applied: -${formatCurrency(discountAmount)}` : null,
     `GST preference: ${includeGst ? "With GST" : "Without GST"}`,
     `Estimated Total: ${formatCurrency(total)}${includeGst ? " (including GST)" : " (GST excluded)"}`,
@@ -924,7 +922,6 @@ function PricingPackageBuilder({ initialPlanId }: { initialPlanId?: TopPlanId })
                   );
                 })}
               </div>
-              <label className="mt-5 flex cursor-pointer items-center gap-2 rounded-[11px] border border-[#d6e3ed] bg-white px-3 py-2 text-[11px] font-extrabold text-[#263446]"><input type="checkbox" checked={includeQuickBill} onChange={(event) => setIncludeQuickBill(event.target.checked)} className="h-4 w-4 accent-[#0077FF]" />Add QuickBill — ₹2,499 one-time</label>
             </div>
 
             <div className="border-b border-[#dfeaf4] p-5 sm:p-7 lg:border-b-0 lg:border-r">
@@ -978,7 +975,6 @@ function PricingPackageBuilder({ initialPlanId }: { initialPlanId?: TopPlanId })
               </div>
               <dl className="mt-4 space-y-2 text-[12px] font-semibold text-[#526173] sm:text-[13px]">
                 <div className="flex items-center justify-between gap-4"><dt>OneLink first purchase</dt><dd className="font-bold tabular-nums text-[#263446]">{formatPricingCurrency(baseSubtotal)}</dd></div>
-                {selectedPlanId !== "elite" && includeQuickBill ? <div className="flex items-center justify-between gap-4"><dt>QuickBill activation</dt><dd className="font-bold tabular-nums text-[#263446]">{formatPricingCurrency(quickBillAddon)}</dd></div> : null}
                 <div className="flex items-center justify-between gap-4"><dt>Future renewal ({selectedCare?.label})</dt><dd className="font-bold tabular-nums text-[#263446]">{formatPricingCurrency(careAmount)}</dd></div>
                 {discountAmount > 0 ? <div className="flex items-center justify-between gap-4 text-[#138808]"><dt>Discount applied</dt><dd className="font-extrabold tabular-nums">−{formatPricingCurrency(discountAmount)}</dd></div> : null}
                 {includeGst ? <div className="flex items-center justify-between gap-4"><dt>GST (18%)</dt><dd className="font-bold tabular-nums text-[#263446]">{formatPricingCurrency(gst)}</dd></div> : null}
@@ -1099,7 +1095,7 @@ function PricingTermsNotice({ className }: { className?: string }) {
   );
 }
 
-function EnterprisePanel({ href, plan }: { href: string; plan: Plan }) {
+function EnterprisePanel({ href, plan, detailed = false }: { href: string; plan: Plan; detailed?: boolean }) {
   const [activeMockup, setActiveMockup] = useState(0);
 
   useEffect(() => {
@@ -1134,10 +1130,10 @@ function EnterprisePanel({ href, plan }: { href: string; plan: Plan }) {
             </div>
           </div>
           <p className="mt-2.5 max-w-2xl text-[13px] font-medium leading-[1.55] text-white/72 sm:text-[14px]">
-            For established businesses, agencies and multi-location brands needing premium design, advanced functionality and custom setup.
+            {detailed ? "An in-depth custom OneLink system for multi-branch businesses, franchise networks and teams that need bulk OneLinks, shared control and tailored operational workflows." : "For established businesses, agencies and multi-location brands needing premium design, advanced functionality and custom setup."}
           </p>
           <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-1.5 sm:grid-cols-2">
-            {enterpriseHighlights.slice(0, 4).map((highlight) => (
+            {(detailed ? enterpriseHighlights : enterpriseHighlights.slice(0, 4)).map((highlight) => (
               <span key={highlight} className="inline-flex items-center gap-2 text-[11px] font-semibold text-white/78">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#55c5ff]/14 text-[#8bdcff]"><Icon name="check" className="h-3 w-3" /></span>
                 {highlight}

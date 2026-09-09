@@ -1,0 +1,99 @@
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --edge-sensitivity: 22;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 18);
+  --border-radius: 16px;
+  --glow-padding: 18px;
+  --cone-spread: 24;
+  position: relative;
+  display: grid;
+  isolation: isolate;
+  border-radius: var(--border-radius);
+  background: var(--card-bg, transparent);
+  transform: translate3d(0, 0, 0.01px);
+}
+
+.border-glow-card::before,
+.border-glow-card > .edge-light {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: opacity 220ms ease-out;
+}
+
+.border-glow-card::before {
+  inset: -1px;
+  z-index: 2;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--cursor-angle),
+    transparent 0%,
+    var(--gradient-one) 8%,
+    var(--gradient-two) 15%,
+    var(--gradient-three) 22%,
+    transparent 31%
+  );
+  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.border-glow-card > .edge-light {
+  inset: calc(var(--glow-padding) * -1);
+  z-index: 0;
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mask-image: conic-gradient(from var(--cursor-angle), #000 0 8%, transparent 13% 87%, #000 92% 100%);
+}
+
+.border-glow-card > .edge-light::before {
+  content: "";
+  position: absolute;
+  inset: var(--glow-padding);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color),
+    0 0 5px var(--glow-color-60),
+    0 0 14px var(--glow-color-45),
+    0 0 24px var(--glow-color-30),
+    0 0 36px var(--glow-color-18);
+}
+
+.border-glow-card:not(:hover)::before,
+.border-glow-card:not(:hover) > .edge-light {
+  opacity: 0;
+  transition-duration: 600ms;
+}
+
+.border-glow-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.border-glow-button {
+  width: 100%;
+}
+
+.border-glow-button > .border-glow-inner > * {
+  width: 100%;
+}
+
+@media (hover: none) {
+  .border-glow-card::before,
+  .border-glow-card > .edge-light {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-glow-card::before,
+  .border-glow-card > .edge-light {
+    transition: none;
+  }
+}

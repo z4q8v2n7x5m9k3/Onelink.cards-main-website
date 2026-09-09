@@ -12,17 +12,37 @@ export function SplashLoader({
   onFinished?: () => void;
 }) {
   const [isVisible, setIsVisible] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    const revealTimer = window.setTimeout(() => onComplete?.(), 900);
-    const closeTimer = window.setTimeout(() => {
-      setIsVisible(false);
-      document.body.style.overflow = "unset";
-    }, 1100);
+    const duration = 2050;
+    const startedAt = performance.now();
+    let frame = 0;
+    let closeTimer = 0;
+
+    const update = (now: number) => {
+      const elapsed = Math.min(1, (now - startedAt) / duration);
+      const eased = elapsed * elapsed * (3 - 2 * elapsed);
+      setProgress(Math.min(100, eased * 100));
+
+      if (elapsed < 1) {
+        frame = window.requestAnimationFrame(update);
+        return;
+      }
+
+      setProgress(100);
+      onComplete?.();
+      closeTimer = window.setTimeout(() => {
+        setIsVisible(false);
+        document.body.style.overflow = "unset";
+      }, 80);
+    };
+
+    frame = window.requestAnimationFrame(update);
 
     return () => {
-      window.clearTimeout(revealTimer);
+      window.cancelAnimationFrame(frame);
       window.clearTimeout(closeTimer);
       document.body.style.overflow = "unset";
     };
@@ -33,28 +53,28 @@ export function SplashLoader({
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] } }}
-          className="fixed inset-0 z-[9999] grid min-h-[100dvh] place-items-center overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)]"
+          exit={{ opacity: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } }}
+          className="fixed inset-0 z-[9999] flex min-h-[100dvh] items-center justify-center overflow-hidden bg-white px-6"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.82 }}
-            animate={{ opacity: 1, scale: 1.06 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00A9FF]/[0.09] blur-[90px]"
-          />
-          <div className="relative flex w-full items-center justify-center px-6 py-10">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 10, filter: "blur(5px)" }}
-              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: 0.98, y: -8, filter: "blur(2px)" }}
-              transition={{ duration: 0.58, ease: [0.16, 1, 0.3, 1] }}
-              className="relative flex items-center justify-center"
-            >
-              <div className="relative h-[52px] w-[220px] sm:h-[62px] sm:w-[260px]">
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+            className="flex w-full select-none justify-center"
+            aria-label={`Loading ${Math.round(progress)} percent`}
+          >
+            <div className="relative aspect-[10895/2720] w-[min(68vw,280px)] overflow-hidden">
+              <Wordmark priority className="absolute inset-0 !h-full !w-full grayscale opacity-[0.09]" />
+              <div
+                className="absolute inset-0"
+                style={{
+                  clipPath: `polygon(0 ${Math.min(100, 102 - progress)}%, 18% ${Math.max(0, 99 - progress)}%, 38% ${Math.min(100, 101 - progress)}%, 58% ${Math.max(0, 98.5 - progress)}%, 78% ${Math.min(100, 101.5 - progress)}%, 100% ${Math.max(0, 99 - progress)}%, 100% 100%, 0 100%)`,
+                }}
+              >
                 <Wordmark priority className="absolute inset-0 !h-full !w-full" />
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -36,7 +36,7 @@ export function HeroMockupShowcase() {
   const nextSlide = slides[(activeIndex + 1) % slides.length];
 
   return (
-    <div className="relative z-20 isolate mx-auto mt-0 max-w-[610px] py-0 sm:-mt-10 sm:py-1 lg:-mt-7 lg:py-0">
+    <div className="relative z-40 isolate mx-auto mt-0 max-w-[610px] py-0 sm:-mt-10 sm:py-1 lg:-mt-7 lg:py-0">
       <div className="absolute inset-x-14 top-12 h-36 rounded-full bg-[rgba(0,169,255,0.1)] blur-3xl sm:top-20 sm:h-52" />
       <div className="absolute left-4 top-10 h-20 w-20 rounded-full bg-white/70 blur-2xl sm:left-10 sm:top-12 sm:h-28 sm:w-28" />
 
@@ -46,13 +46,13 @@ export function HeroMockupShowcase() {
             <motion.div
               animate={{ rotate: [-8, -6.8, -8], y: [0, -4, 0] }}
               transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-              className="absolute -left-[3%] top-12 w-[108px] origin-bottom-right transform-gpu opacity-55 [backface-visibility:hidden] [will-change:transform] sm:left-[3%] sm:top-6 sm:w-[124px] sm:opacity-100 lg:left-[1%] lg:w-[148px] xl:left-[4%]"
+              className="absolute -left-[3%] top-12 w-[108px] origin-bottom-right transform-gpu opacity-90 [backface-visibility:hidden] [will-change:transform] sm:left-[3%] sm:top-6 sm:w-[124px] sm:opacity-100 lg:left-[1%] lg:w-[148px] xl:left-[4%]"
             >
               <AnimatePresence initial={false} mode="sync">
                 <motion.div
                   key={previousSlide.id}
                   initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 0.72, scale: 0.9 }}
+                  animate={{ opacity: 0.94, scale: 0.9 }}
                   exit={{ opacity: 0, scale: 0.94, position: "absolute", inset: 0 }}
                   transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
                   className="transform-gpu [backface-visibility:hidden]"
@@ -65,13 +65,13 @@ export function HeroMockupShowcase() {
             <motion.div
               animate={{ rotate: [8, 6.8, 8], y: [0, -5, 0] }}
               transition={{ duration: 8.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-              className="absolute -right-[3%] top-12 w-[108px] origin-bottom-left transform-gpu opacity-55 [backface-visibility:hidden] [will-change:transform] sm:right-[3%] sm:top-6 sm:w-[124px] sm:opacity-100 lg:right-[1%] lg:w-[148px] xl:right-[4%]"
+              className="absolute -right-[3%] top-12 w-[108px] origin-bottom-left transform-gpu opacity-90 [backface-visibility:hidden] [will-change:transform] sm:right-[3%] sm:top-6 sm:w-[124px] sm:opacity-100 lg:right-[1%] lg:w-[148px] xl:right-[4%]"
             >
               <AnimatePresence initial={false} mode="sync">
                 <motion.div
                   key={nextSlide.id}
                   initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 0.72, scale: 0.9 }}
+                  animate={{ opacity: 0.94, scale: 0.9 }}
                   exit={{ opacity: 0, scale: 0.94, position: "absolute", inset: 0 }}
                   transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
                   className="transform-gpu [backface-visibility:hidden]"
