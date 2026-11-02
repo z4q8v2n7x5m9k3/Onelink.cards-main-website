@@ -1,21 +1,21 @@
 const planData = {
     essential: {
         name: 'Essential',
-        description: 'Professional digital presence for your business.',
-        setup: 4999,
-        care: { '3-month': 1999, '6-month': 3499, '12-month': 5999 }
+        description: 'Smart Business Presence.',
+        setup: 5999,
+        care: { '3-month': 2499, '6-month': 4499, '12-month': 7999 }
     },
     signature: {
         name: 'Signature',
-        description: 'For bookings, enquiries and stronger customer action.',
-        setup: 5999,
-        care: { '3-month': 3499, '6-month': 5999, '12-month': 10999 }
+        description: 'Smart Business Growth.',
+        setup: 9999,
+        care: { '3-month': 3999, '6-month': 6999, '12-month': 12499 }
     },
     elite: {
         name: 'Elite',
-        description: 'For businesses that need full management control.',
-        setup: 10999,
-        care: { '3-month': 5999, '6-month': 9999, '12-month': 17999 }
+        description: 'Smart Business Management.',
+        setup: 16999,
+        care: { '3-month': 6499, '6-month': 11499, '12-month': 19999 }
     }
 };
 
